@@ -1,0 +1,12 @@
+---
+const platform = "github";
+const username = "withastro";
+const linkedinUsername = "nickhaubner";
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <p>Learn more about my projects on <a href={`https://www.${platform}.com/${username}`}>{platform}</a>!</p>
+  <p>Find me on <a href={`https://www.linkedin.com/in/${linkedinUsername}`}>LinkedIn</a>!</p>
+  <p>&copy; {year} {username}</p>
+</footer>

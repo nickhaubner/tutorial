@@ -1,6 +1,4 @@
 ---
-
-
 const pageTitle = "About Me";
 
 const identity = {
@@ -21,9 +19,13 @@ const skillColor = "crimson";
 const fontWeight = "300";
 const textCase = "uppercase";
 const fontFamily = "Lexend Deca, sans-serif";
+
+import '../styles/global.css';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<html lang="en">
+<html lang="en" class="bg-gray-100">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -32,10 +34,6 @@ const fontFamily = "Lexend Deca, sans-serif";
 		<meta name="generator" content={Astro.generator} />
 		<title>{pageTitle}</title>
         <style define:vars={{skillColor, fontWeight, textCase, fontFamily}}>
-            h1 {
-                color: ;
-                font-size: 4rem;
-            }
             .skill {
                 color: var(--skillColor);
                 font-weight: var(--fontWeight);
@@ -44,30 +42,28 @@ const fontFamily = "Lexend Deca, sans-serif";
             }
         </style>
 	</head>
-        <nav>
-		
-			<a href="/">Home</a>
-			<a href="/about">About</a>
-            <a href="/blog">Blog</a>
+        <nav class="bg-gray-200 p-4 mb-8 mx-auto max-w-3xl rounded-lg shadow-md flex justify-center gap-6">
+            <Navigation />
 	    </nav>
-	<body>
-        <h1 class="bg-amber-600">{pageTitle}</h1>
-        <h2>... and my new Astro site!</h2>
+	    <body>
+            <main class="max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md">
+        <h1 class="text-4xl mb-4">{pageTitle}</h1>
+        <h2 class="text-3xl mb-3 fill-gray-600">... and my new Astro site!</h2>
 
         <p>I am working through Astro's introductory tutorial. This is the second page on my website, and it's the first one I built myself!</p>
 
         <p>This site will update as I complete more of the tutorial, so keep checking back and see how my journey is going!</p>
 
         <p>Here are a few facts about me:</p>
-<ul>
+<ul class="list-disc list-inside mb-4">
   <li>My name is {identity.firstName}.</li>
   <li>I live in the {identity.country} and I work as a {identity.occupation}.</li>
   {identity.hobbies.length >= 2 &&
     <li>Two of my hobbies are: {identity.hobbies[0]} and {identity.hobbies[1]}</li>
   }
 </ul>
-<p>My skills are:</p>
-<ul>
+<p class="mb-4">My skills are:</p>
+<ul class="list-disc list-inside">
   {skills.map((skill) => <li class="skill">{skill}</li>)}
 </ul>
 
@@ -76,5 +72,7 @@ const fontFamily = "Lexend Deca, sans-serif";
 {finished && <p>I finished this tutorial!</p>}
 
 {goal === 3 ? <p>My goal is to finish in 3 days.</p> : <p>My goal is not 3 days.</p>}
-    </body>
+        </main>
+    <Footer />
+  </body>
 </html>

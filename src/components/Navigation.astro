@@ -1,8 +1,83 @@
 ---
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/about/", label: "About" },
+  { href: "/blog/", label: "Blog" },
+];
+
+const currentPath = Astro.url.pathname;
 ---
 
-<nav class="bg-gray-200 p-4 mb-8 mx-auto max-w-3xl rounded-lg shadow-md flex justify-center gap-6">
-<a href="/">Home</a>
-<a href="/about/">About</a>
-<a href="/blog/">Blog</a>
+<nav class="mx-auto mb-8 max-w-3xl px-4">
+  <div
+    id="nav-container"
+    class="relative flex items-center justify-center gap-1 rounded-2xl border border-white/60 bg-white/70 p-1.5 shadow-[0_8px_30px_rgb(0,0,0,0.06)] backdrop-blur-xl ring-1 ring-black/5"
+  >
+    {/* Sliding pill */}
+    <div
+      id="nav-pill"
+      class="absolute h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 shadow-lg shadow-indigo-500/30 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+      style="top: 50%; transform: translateY(-50%);"
+    ></div>
+
+    {links.map(({ href, label }) => {
+      const isActive = currentPath === href || (href !== "/" && currentPath.startsWith(href));
+      return (
+        <a
+          href={href}
+          data-nav-link
+          data-active={isActive ? "true" : "false"}
+          class="nav-link relative z-10 rounded-xl px-5 py-2 text-sm font-medium text-gray-700 transition-colors duration-300 hover:text-white data-[active=true]:text-white"
+        >
+          {label}
+        </a>
+      );
+    })}
+  </div>
 </nav>
+
+<script is:inline>
+  (function () {
+    const container = document.getElementById("nav-container");
+    const pill = document.getElementById("nav-pill");
+    if (!container || !pill) return;
+
+    const links = container.querySelectorAll("[data-nav-link]");
+    const activeLink = container.querySelector('[data-active="true"]');
+
+    function movePill(target, instant = false) {
+      const cRect = container.getBoundingClientRect();
+      const tRect = target.getBoundingClientRect();
+      if (instant) pill.style.transition = "none";
+      pill.style.width = tRect.width + "px";
+      pill.style.left = tRect.left - cRect.left + "px";
+      pill.style.opacity = "1";
+      if (instant) {
+        // Force reflow then restore transition
+        pill.offsetHeight;
+        pill.style.transition = "";
+      }
+    }
+
+    if (activeLink) {
+      requestAnimationFrame(() => movePill(activeLink, true));
+    }
+
+    links.forEach((link) => {
+      link.addEventListener("mouseenter", () => movePill(link));
+    });
+
+    container.addEventListener("mouseleave", () => {
+      if (activeLink) {
+        movePill(activeLink);
+      } else {
+        pill.style.opacity = "0";
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      const current = container.querySelector('[data-active="true"]');
+      if (current) movePill(current, true);
+    });
+  })();
+</script>

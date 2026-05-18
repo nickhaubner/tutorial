@@ -3,6 +3,7 @@ const pageTitle = "Home Page";
 import Navigation from '../components/Navigation.astro';
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
+import StaggerHeading from '../components/StaggerHeading.astro';
 ---
 
 <html lang="en">
@@ -16,7 +17,8 @@ import Footer from '../components/Footer.astro';
 	</head>
         <Navigation />
 	<body>
-		<h1 class="text-cyan-200">{pageTitle}</h1>
+		<!-- default H1 -->
+		<StaggerHeading text={pageTitle} class="text-cyan-200" />
 		<Footer />
 	</body>
 </html>

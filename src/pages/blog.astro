@@ -8,6 +8,7 @@ const posts = [
   { title: "Learning Astro Components", url: "/posts/post-2/" },
   { title: "Deploying My Astro Site", url: "/posts/post-3/" },
 ];
+import StaggerHeading from '../components/StaggerHeading.astro';
 ---
 
 <html lang="en">
@@ -21,7 +22,7 @@ const posts = [
 	</head>
         <Navigation />
 	<body>
-        <h1 class="text-cyan-200">{pageTitle}</h1>
+		<StaggerHeading text={pageTitle} class="text-cyan-200" />
         <p class="text-cyan-200">This is where I will post about my journey learning Astro.</p>
             <ul class="text-cyan-500">
       {posts.map((post) => (
